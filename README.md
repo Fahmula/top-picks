@@ -30,8 +30,8 @@ These variables can be set in a `.env` file or passed directly when running the 
 | `EMBY_URL`        | The URL of your Emby server (required).                                    | `http://your-emby-url`  |
 | `EMBY_API_KEY`    | Your Emby API key (required).                                              | `your-emby-api-key`     |
 | `TRAKT_CLIENT_ID` | Your Trakt API client ID (required).                                       | `your-trakt-client-id`  |
-| `MOVIE_FOLDER_NAME` | Folder name for movies in emby library.                                  | `movies-hd`             |
-| `TV_FOLDER_NAME`  | Folder name for TV shows in emby library.                                  | `tv`                   |
+| `MOVIE_FOLDER_NAME` | Folder name for movies in emby library path.                                  | `movies-hd`             |
+| `TV_FOLDER_NAME`  | Folder name for TV shows in emby library path.                                  | `tv`                   |
 | `MOVIES_LIMIT`    | Number of movies to include in "Top Picks".                                | `6`                     |
 | `SHOWS_LIMIT`     | Number of shows to include in "Top Picks".                                 | `3`                     |
 | `CRON_SCHEDULE`   | Cron schedule for running the script. Uses standard cron syntax.           | `0 */3 * * *`           |
