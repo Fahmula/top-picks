@@ -30,8 +30,8 @@ These variables can be set in a `.env` file or passed directly when running the 
 | `EMBY_URL`        | The URL of your Emby server (required).                                    | `http://your-emby-url`  |
 | `EMBY_API_KEY`    | Your Emby API key (required).                                              | `your-emby-api-key`     |
 | `TRAKT_CLIENT_ID` | Your Trakt API client ID (required).                                       | `your-trakt-client-id`  |
-| `MOVIE_FOLDER_NAME` | Folder name for movies inside `/media`.                                  | `movies-hd`             |
-| `TV_FOLDER_NAME`  | Folder name for TV shows inside `/media`.                                  | `tv`                   |
+| `MOVIE_FOLDER_NAME` | Folder name for movies in emby library.                                  | `movies-hd`             |
+| `TV_FOLDER_NAME`  | Folder name for TV shows in emby library.                                  | `tv`                   |
 | `MOVIES_LIMIT`    | Number of movies to include in "Top Picks".                                | `6`                     |
 | `SHOWS_LIMIT`     | Number of shows to include in "Top Picks".                                 | `3`                     |
 | `CRON_SCHEDULE`   | Cron schedule for running the script. Uses standard cron syntax.           | `0 */3 * * *`           |
@@ -42,13 +42,13 @@ These variables can be set in a `.env` file or passed directly when running the 
 
 1. **Pull the Docker image:**
    ```bash
-   docker pull your-docker-repo/top-picks-script:latest
+   docker pull ghcr.io/fahmula/top-picks:latest
    ```
 
 2. **Setup environment variables:**
    Create a `.env` file with the following contents:
    ```env
-   EMBY_URL=http://your-emby-server-url
+   EMBY_URL=http://192.168.1.6:8096
    EMBY_API_KEY=your-emby-api-key
    TRAKT_CLIENT_ID=your-trakt-client-id
    MOVIE_FOLDER_NAME=movies-hd
@@ -84,11 +84,19 @@ version: "3.8"
 
 services:
   top-picks:
-    image: your-docker-repo/top-picks-script:latest
+    image: ghcr.io/fahmula/top-picks:latest
     container_name: top_picks
-    env_file: .env
+    environment:
+      - EMBY_URL=http://192.168.1.5:8096
+      - EMBY_API_KEY=your-emby-api-key
+      - TRAKT_CLIENT_ID=your-trakt-client-id
+      - MOVIE_FOLDER_NAME=movies-hd
+      - TV_FOLDER_NAME=tv
+      - MOVIES_LIMIT=6
+      - SHOWS_LIMIT=3
+      - CRON_SCHEDULE=0 */3 * * *  # Runs every 3 hours
     volumes:
-      - ./emby-data:/media  # Mount your Emby "Top Picks" path to /media
+      - /mnt/cache/appdata/emby/data/top-picks:/media  # Mount your Emby "Top Picks" path to /media
     restart: unless-stopped
 ```
 
