@@ -1,0 +1,23 @@
+name: Create release
+
+on:
+  push:
+    tags:
+      - "**"
+      
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release create "$tag" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="${GITHUB_REPOSITORY#*/} ${tag}" \
+              --generate-notes
